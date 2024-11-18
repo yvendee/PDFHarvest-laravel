@@ -1,3 +1,4 @@
+<!-- resources/views/status/status-page.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -195,11 +196,31 @@
                 updateProgress(sessionId);
 
                 document.getElementById('downloadButton').addEventListener('click', function() {
-                    window.location.href = `/download/${sessionId}`;
+                    // Request file download from Flask server
+                    fetch(`{{$apiUrl}}/download/${sessionId}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('File not found');
+                            }
+                            return response.blob();  // Parse the response as a Blob (for downloading the file)
+                        })
+                        .then(blob => {
+                            const link = document.createElement('a');
+                            link.href = URL.createObjectURL(blob);  // Create an object URL for the Blob
+                            link.download = `${sessionId}.zip`;  // Set the file name for download
+                            link.click();  // Trigger the download
+                        })
+                        .catch(error => {
+                            // Handle errors such as file not found
+                            alert('Error: The file could not be found or downloaded. Please try again later.');
+                            console.error('Download error:', error);
+                        });
                 });
             }
         }
     });
+
+
 </script>
 
 </body>

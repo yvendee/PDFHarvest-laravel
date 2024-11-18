@@ -40,6 +40,11 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 // Route for handling logout
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
+
+//Route to increment a cache key
+Route::get('/incrementcache/{sessionId}', [CacheController::class, 'incrementCache']);
+
+
 // Apply the custom middleware to protect routes
 Route::middleware(['check.user.session'])->group(function () {
     // Route for displaying the start page
@@ -70,13 +75,12 @@ Route::middleware(['check.user.session'])->group(function () {
     Route::get('/progress/{sessionId}', [ProcessingController::class, 'getProgress']);
 
     // Route to download processed files
-    Route::get('/download/{sessionId}', [ProcessingController::class, 'downloadFile']);
+    // Route::get('/download/{sessionId}', [ProcessingController::class, 'downloadFile']);
 
 
     // Route to create a cache key
     Route::get('/createcache/{sessionId}/{total}', [CacheController::class, 'createCache']);
 
-    Route::get('/incrementcache/{sessionId}', [CacheController::class, 'incrementCache']);
 
     // Route to delete a cache key
     Route::get('/deletecache/{sessionId}', [CacheController::class, 'deleteCache']);

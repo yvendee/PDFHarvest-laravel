@@ -15,8 +15,19 @@ class ProcessingController extends Controller
 {
     public function statusPage()
     {
-        return view('status.status-page');
+        $apiUrl = 'http://localhost:5000'; // The API URL to interact with the Flask app
+        Log::info("Backend URL for status page: " . $apiUrl);
+        return view('status.status-page', compact('apiUrl'));
+        // return view('status.status-page');
     }
+
+
+//     public function showStatusPage($session_id)
+// {
+//     $apiUrl = 'http://localhost:5000'; // The API URL to interact with the Flask app
+//     Log::info("Backed URL: " . $apiUrl);
+//     return view('status.status-page', compact('session_id', 'apiUrl'));
+// }
 
     public function startProcessing(Request $request, $sessionId, $total)
     {

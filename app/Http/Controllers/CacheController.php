@@ -55,7 +55,11 @@ class CacheController extends Controller
             // Log the progress increment
             Log::info("Progress incremented: {$progress['current']} of {$progress['total']} for cache key: $cacheKey");
 
-            return response()->json($progress);
+            // return response()->json($progress);
+            return response()->json([
+                'message' => 'Progess incremented.',
+                'progress' => $progress
+            ], 200);
 
         } else {
             // Log if trying to increment beyond the total
